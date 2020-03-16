@@ -32,24 +32,20 @@ client.on('message', msg => {
     if (msg.content === "hey birb") {
         let appid = "7cb4eb671c9bca57ec4b4fe34d70dd94"
         let loc = "Harrisburg"
-        let options = {
+        var options = {
             'method': 'GET',
-            'url': encodeURI('http://api.openweathermap.org/data/2.5/weather?q=Harrisburg,us&appid=7cb4eb671c9bca57ec4b4fe34d70dd94'),
-            'headers': {
-            }
+            'url': 'http://api.openweathermap.org/data/2.5/weather?q=Harrisburg,us&appid=7cb4eb671c9bca57ec4b4fe34d70dd94',
         };
-        request(options, function (error, response, body) {
+        request(options, function (error, response) {
             if (error) throw new Error(error);
-            console.log(body);
+            console.log(response.body);
+            const data = JSON.parse(response.body)
+            const {temp, feels_like, humidity} = data.main
+            const wind = data.wind.speed
+
+            let birbSay = "Here's the weather! " + temp + " " + feels_like + " " + humidity + " " + wind
+            msg.reply(birbSay)
         });
-
-        const data = body
-        const {temp, feels_like, humidity} = data.main
-        const wind = data.wind.speed
-
-        let birbSay = "Here's the weather! " + temp + " " + feels_like + " " + humidity + " " + wind
-        msg.reply(birbSay)
-
     }
 
 
@@ -57,4 +53,4 @@ client.on('message', msg => {
 
 })
 
-client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.Xm_JeA.jz2RAdPmOWAK6LJelpAB5cvQGqg')
+client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.Xm_mMw.CS82X4fib9HfF6uhk4m_A-WU7DQ')
