@@ -29,7 +29,7 @@ client.on('message', msg => {
                          "\"Birds\" would you kindly only refer to us as our preferred name \"Birbs\". Thank you.")
     }
 
-    if (msg.content === "hey birb") {
+    if (msg.content.toUpperCase() === "BIRB WEATHER") {
         let appid = "7cb4eb671c9bca57ec4b4fe34d70dd94"
         let loc = "Harrisburg"
         var options = {
@@ -40,10 +40,47 @@ client.on('message', msg => {
             if (error) throw new Error(error);
             console.log(response.body);
             const data = JSON.parse(response.body)
-            const {temp, feels_like, humidity} = data.main
+            let {temp, feels_like, humidity} = data.main
             const wind = data.wind.speed
+            const clouds = data.weather[0].description
 
-            let birbSay = "Here's the weather! " + temp + " " + feels_like + " " + humidity + " " + wind
+            temp = temp - 273.15
+            feels_like = feels_like - 273.15
+
+            let birbSay = "Here's the weather on campus! \n " +
+                          "The temperature is " + Math.round(temp) + " degrees Celsius "
+            if (temp > 30) {
+                birbSay = birbSay + "... that's really hot! \n"
+            }
+            else if (temp < 0) {
+                birbSay = birbSay + "... that's really cold! \n"
+            }
+            else {
+                birbSay = birbSay + "\n"
+            }
+
+            birbSay = birbSay + "But it really feels like " + Math.round(feels_like) + " degrees Celsius "
+            if (temp > feels_like) {
+                birbSay = birbSay + "... so a little colder! \n"
+            }
+            else if (temp < feels_like) {
+                birbSay = birbSay + "... so a little warmer! \n"
+            }
+            else {
+                birbSay = birbSay + "... so not much different I suppose...\n"
+            }
+
+            birbSay = birbSay + "And the humidity is " + humidity + "% "
+            if (humidity > 75) {
+                birbSay = birbSay + " disgusting :( \n"
+            }
+            else {
+                birbSay = birbSay + "\n"
+            }
+
+            birbSay = birbSay + "And the wind speed is " + wind + "m/s\n"
+            birbSay = birbSay + "and the clouds are looking like " + clouds + "\n REMEMBER! Keep on Birbin'"
+
             msg.reply(birbSay)
         });
     }
@@ -53,4 +90,4 @@ client.on('message', msg => {
 
 })
 
-client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.Xm_mMw.CS82X4fib9HfF6uhk4m_A-WU7DQ')
+client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.Xm_oNA.iqn4rTUbvQhUWYI0BQ1KIQ09Ajk')
