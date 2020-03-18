@@ -23,13 +23,23 @@ client.on('message', msg => {
         birbSay = birbSay.slice(5, birbSay.length - 3)
         msg.channel.send(birbSay + "ong")
     }
-
-    if (noBirds && !(msg.author.bot)) {
+    else if (noBirds && !(msg.author.bot)) {
         msg.reply("Excuse me, I do not take kindly to hearing myself and my fellow breathern as what you call " +
                          "\"Birds\" would you kindly only refer to us as our preferred name \"Birbs\". Thank you.")
     }
-
-    if (msg.content.toUpperCase() === "BIRB WEATHER") {
+    // test the birb with this
+    else if (msg.content.toUpperCase() === "BIRB TEST") {
+        if (msg.member.displayName === "I'm still Dade on the Inside") {
+            let role = msg.guild.roles.cache.find(role => role.name === "PUT ROLE NAME HERE")
+            console.log(role.id)
+            msg.member.roles.add(role)
+        }
+        else {
+            msg.reply("HEY! this command is only for Jacob!")
+        }
+    }
+    // Birb weather
+    else if (msg.content.toUpperCase() === "BIRB WEATHER") {
         let appid = "7cb4eb671c9bca57ec4b4fe34d70dd94"
         let loc = "Harrisburg"
         var options = {
@@ -84,10 +94,17 @@ client.on('message', msg => {
             msg.reply(birbSay)
         });
     }
+    else if (msg.content.toUpperCase() === "BIRBY") {
+        msg.reply("Birby was me when I was 10... I'm BIRB NOW!")
+    }
+    else if (toBirb) {
+        msg.reply("Sorry, I don't know what you're talking about")
+    }
+
 
 
 
 
 })
 
-client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.Xm_oNA.iqn4rTUbvQhUWYI0BQ1KIQ09Ajk')
+client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.XnD_pw.SyLZTUeAFn4VOfQ9JZCTdtE_gmg')
