@@ -16,6 +16,8 @@ client.on('message', msg => {
 
     // For Role
     let roleBirb = msg.content.substr(5, 4).toUpperCase() === "ROLE"
+    // For Dropping Role
+    let dropBirb = msg.content.substr(5, 4).toUpperCase() === "DROP"
 
     // Birb "ing"
     let birbing = msg.content.substr(msg.content.length - 3, msg.content.length) === "ing" && !(msg.author.bot)
@@ -31,8 +33,9 @@ client.on('message', msg => {
         msg.reply("Excuse me, I do not take kindly to hearing myself and my fellow breathern as what you call " +
                          "\"Birds\" would you kindly only refer to us as our preferred name \"Birbs\". Thank you.")
     }
+    // ROLES
     else if (toBirb && roleBirb) {
-        let roleStr = msg.content.substr(10, 3)
+        let roleStr = msg.content.split(" ")[2]
         if (allowedRoles.includes(roleStr)) {
             let role = msg.guild.roles.cache.find(r => r.name.toString() === roleStr)
 
@@ -55,6 +58,29 @@ client.on('message', msg => {
                       "Ask one of my developers and server admin if you would like to add a class")
         }
     }
+    // DROP ROLES
+    else if (toBirb && dropBirb) {
+        let roleStr = msg.content.split(" ")[2]
+        let role = msg.guild.roles.cache.find(r => r.name.toString() === roleStr)
+        if (allowedRoles.includes(roleStr)) {
+            let alreadyHas = false
+            msg.member.roles.cache.forEach(r => {
+                if (!alreadyHas && r === role) {
+                    alreadyHas = true
+                }
+            })
+            if (alreadyHas) {
+                msg.member.roles.remove(role)
+                msg.reply("You have dropped the course! I hope you got your money back!")
+            }
+            else {
+                msg.reply("Can't leave a class you're not in you silly!")
+            }
+        }
+        else {
+            msg.reply("That isn't a course I can remove you from :(")
+        }
+    }
     // test the birb with this
     else if (msg.content.toUpperCase() === "BIRB TEST") {
         if ((msg.member.displayName === "I'm still Dade on the Inside") || (msg.member.displayName === "Google")){
@@ -69,6 +95,7 @@ client.on('message', msg => {
         helpOut = helpOut + "\n birb [something]ing - example: birb ping ---> \"pong\""
         helpOut = helpOut + "\n birb weather ---> Outputs the weather on campus"
         helpOut = helpOut + "\n birb role [role] ---> Assigns class roles ... classes are as follows"
+        helpOut = helpOut + "\n birb drop [role] ---> Removes your role for the class ... classes are as follows"
         allowedRoles.forEach(role => {
             helpOut = helpOut + "\n" + role + "  -  Example: birb role " + role
         })
