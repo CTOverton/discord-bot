@@ -57,12 +57,23 @@ client.on('message', msg => {
     }
     // test the birb with this
     else if (msg.content.toUpperCase() === "BIRB TEST") {
-        if (msg.member.displayName === "I'm still Dade on the Inside") {
-
+        if ((msg.member.displayName === "I'm still Dade on the Inside") || (msg.member.displayName === "Google")){
+            msg.reply("Hello Father")
         }
         else {
             msg.reply("HEY! this command is only for Jacob!")
         }
+    }
+    else if (msg.content.toUpperCase() === "BIRB HELP") {
+        let helpOut = "I see you need help! Here's the list of commands ..."
+        helpOut = helpOut + "\n birb [something]ing - example: birb ping ---> \"pong\""
+        helpOut = helpOut + "\n birb weather ---> Outputs the weather on campus"
+        helpOut = helpOut + "\n birb role [role] ---> Assigns class roles ... classes are as follows"
+        allowedRoles.forEach(role => {
+            helpOut = helpOut + "\n" + role + "  -  Example: birb role " + role
+        })
+        helpOut = helpOut + "\n\nDeveloped by: Jacob and Christian"
+        msg.reply(helpOut)
     }
     // Birb weather
     else if (msg.content.toUpperCase() === "BIRB WEATHER") {
@@ -115,7 +126,7 @@ client.on('message', msg => {
             }
 
             birbSay = birbSay + "And the wind speed is " + wind + "m/s\n"
-            birbSay = birbSay + "and the clouds are looking like " + clouds + "\n REMEMBER! Keep on Birbin'"
+            birbSay = birbSay + "and the clouds are looking like " + clouds + "\nREMEMBER! Keep on Birbin'"
 
             msg.reply(birbSay)
         });
@@ -124,9 +135,8 @@ client.on('message', msg => {
         msg.reply("Birby was me when I was 10... I'm BIRB NOW!")
     }
     else if (toBirb) {
-        msg.reply("Sorry, I don't know what you're talking about")
+        msg.reply("Sorry, I don't know what you're talking about\nType \"birb help\" for a list of things I can do for I am only a birb")
     }
-
 })
 
-client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.XnF3Xg.EcBDPhIjs7hJqN6QkW5ze6ACuu8')
+client.login('lol')
