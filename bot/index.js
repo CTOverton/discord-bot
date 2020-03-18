@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const request = require('request')
 const client = new Discord.Client()
+const allowedRoles = ["444","463","470","472","487","313","430","460","475","488","122","360","462","469"]
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
@@ -12,6 +13,9 @@ client.on('message', msg => {
 
     // For full message analysis
     let saidNearBirb = msg.content.toUpperCase()
+
+    // For Role
+    let roleBirb = msg.content.substr(5, 4).toUpperCase() === "ROLE"
 
     // Birb "ing"
     let birbing = msg.content.substr(msg.content.length - 3, msg.content.length) === "ing" && !(msg.author.bot)
@@ -27,12 +31,34 @@ client.on('message', msg => {
         msg.reply("Excuse me, I do not take kindly to hearing myself and my fellow breathern as what you call " +
                          "\"Birds\" would you kindly only refer to us as our preferred name \"Birbs\". Thank you.")
     }
+    else if (toBirb && roleBirb) {
+        let roleStr = msg.content.substr(10, 3)
+        if (allowedRoles.includes(roleStr)) {
+            let role = msg.guild.roles.cache.find(r => r.name.toString() === roleStr)
+
+            let alreadyHas = false
+            msg.member.roles.cache.forEach(r => {
+                if (!alreadyHas && r === role) {
+                    alreadyHas = true
+                }
+            })
+            if (!alreadyHas) {
+                msg.member.roles.add(role)
+                msg.reply("You have been added to the CMPSC" + roleStr + " class!")
+            }
+            else {
+                msg.reply("You're already in that class!")
+            }
+        }
+        else {
+            msg.reply("I'm Sorry... But that is not a valid role I can assign you in this server.\n" +
+                      "Ask one of my developers and server admin if you would like to add a class")
+        }
+    }
     // test the birb with this
     else if (msg.content.toUpperCase() === "BIRB TEST") {
         if (msg.member.displayName === "I'm still Dade on the Inside") {
-            let role = msg.guild.roles.cache.find(role => role.name === "PUT ROLE NAME HERE")
-            console.log(role.id)
-            msg.member.roles.add(role)
+
         }
         else {
             msg.reply("HEY! this command is only for Jacob!")
@@ -101,10 +127,6 @@ client.on('message', msg => {
         msg.reply("Sorry, I don't know what you're talking about")
     }
 
-
-
-
-
 })
 
-client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.XnD_pw.SyLZTUeAFn4VOfQ9JZCTdtE_gmg')
+client.login('Njg0NjUwMjIxMjU0MzQ0NzM1.XnF3Xg.EcBDPhIjs7hJqN6QkW5ze6ACuu8')
