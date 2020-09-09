@@ -108,6 +108,7 @@ client.on('message', msg => {
         helpOut = helpOut + "\n birb weather ---> Outputs the weather on campus"
         helpOut = helpOut + "\n birb role [role] ---> Assigns class roles ... classes are as follows"
         helpOut = helpOut + "\n birb drop [role] ---> Removes your role for the class ... classes are as follows"
+        helpOut = helpOut + "\n birb members [role] ---> Displays a list of members of this role"
         allowedRoles.forEach(role => {
             helpOut = helpOut + "\n" + role + "  -  Example: birb role " + role
         })
