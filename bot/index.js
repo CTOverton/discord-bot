@@ -19,6 +19,8 @@ client.on('message', msg => {
     let roleBirb = msg.content.substr(5, 4).toUpperCase() === "ROLE"
     // For Dropping Role
     let dropBirb = msg.content.substr(5, 4).toUpperCase() === "DROP"
+    // For Listing Role Members
+    let memberRolesBirb = msg.content.substr(5, 7).toUpperCase() === "MEMBERS"
 
     // Birb "ing"
     let birbing = msg.content.substr(msg.content.length - 3, msg.content.length) === "ing" && !(msg.author.bot)
@@ -80,6 +82,15 @@ client.on('message', msg => {
         }
         else {
             msg.reply("That isn't a course I can remove you from :(")
+        }
+    }
+    // ROLE Member List
+    else if(toBirb && memberRolesBirb){
+        let roleStr = msg.content.split(" ")[2]
+        if (allowedRoles.includes(roleStr)) {
+            let role = msg.guild.roles.cache.find(r => r.name.toString() === roleStr)
+            let roleMembers = role.members.map(mem => mem.user.username)
+            msg.reply(`Here are the members of ${roleStr}:\n\n` + roleMembers.join("\n"))
         }
     }
     // test the birb with this
