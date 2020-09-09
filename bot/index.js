@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const request = require('request')
+require('dotenv').config()
 const client = new Discord.Client()
 const allowedRoles = ["444","463","470","472","487","313","430","460","475","488","122","360","462","469"]
 
