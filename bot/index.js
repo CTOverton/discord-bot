@@ -166,4 +166,4 @@ client.on('message', msg => {
     }
 })
 
-client.login('lol')
+client.login(process.env.BotToken)
