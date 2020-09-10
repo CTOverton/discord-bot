@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const request = require('request')
+require('dotenv').config()
 const client = new Discord.Client()
 const allowedRoles = ["444","463","470","472","487","313","430","460","475","488","122","360","462","469"]
 
@@ -18,6 +19,8 @@ client.on('message', msg => {
     let roleBirb = msg.content.substr(5, 4).toUpperCase() === "ROLE"
     // For Dropping Role
     let dropBirb = msg.content.substr(5, 4).toUpperCase() === "DROP"
+    // For Listing Role Members
+    let memberRolesBirb = msg.content.substr(5, 7).toUpperCase() === "MEMBERS"
 
     // Birb "ing"
     let birbing = msg.content.substr(msg.content.length - 3, msg.content.length) === "ing" && !(msg.author.bot)
@@ -81,6 +84,15 @@ client.on('message', msg => {
             msg.reply("That isn't a course I can remove you from :(")
         }
     }
+    // ROLE Member List
+    else if(toBirb && memberRolesBirb){
+        let roleStr = msg.content.split(" ")[2]
+        if (allowedRoles.includes(roleStr)) {
+            let role = msg.guild.roles.cache.find(r => r.name.toString() === roleStr)
+            let roleMembers = role.members.map(mem => mem.user.username)
+            msg.reply(`Here are the members of ${roleStr}:\n\n` + roleMembers.join("\n"))
+        }
+    }
     // test the birb with this
     else if (msg.content.toUpperCase() === "BIRB TEST") {
         if ((msg.member.displayName === "I'm still Dade on the Inside") || (msg.member.displayName === "Google")){
@@ -96,6 +108,7 @@ client.on('message', msg => {
         helpOut = helpOut + "\n birb weather ---> Outputs the weather on campus"
         helpOut = helpOut + "\n birb role [role] ---> Assigns class roles ... classes are as follows"
         helpOut = helpOut + "\n birb drop [role] ---> Removes your role for the class ... classes are as follows"
+        helpOut = helpOut + "\n birb members [role] ---> Displays a list of members of this role"
         allowedRoles.forEach(role => {
             helpOut = helpOut + "\n" + role + "  -  Example: birb role " + role
         })
@@ -166,4 +179,4 @@ client.on('message', msg => {
     }
 })
 
-client.login('lol')
+client.login(process.env.BotToken)
